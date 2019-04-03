@@ -4,7 +4,7 @@ import sqlite3
 import bs4
 import lxml
 
-sqlite_file = "my_hdb.sqlite"
+sqlite_file = "myaddddddddd_hdb.sqlite"
 conn = sqlite3.connect(sqlite_file)
 c = conn.cursor()
 
@@ -23,8 +23,8 @@ print(ticker_list)
 
 
 
-Ticker = input("Which company ticker would you like to analyze? ")
-Ticker = Ticker.upper()
+# Ticker = input("Which company ticker would you like to analyze? ")
+# Ticker = Ticker.upper()
 
 
 
@@ -63,34 +63,52 @@ def get_balance_sheet(ticker):
     return result
 
 
-
+lineItemMap = {}
+index = 0
 for ticker in ticker_list:
     income_statement_by_ticker = get_income_statement(ticker)
-    c.execute("CREATE TABLE {ticker} ({lineItem} {type}, '2014' INTEGER, '2015' INTEGER, '2016' INTEGER, '2017' INTEGER, '2018' INTEGER)".\
-              format(ticker=ticker, lineItem="LineItem", type="TEXT"))
     for key1 in income_statement_by_ticker.keys():
-        c.execute("INSERT INTO {ticker} ({lineItem}) VALUES ({item})".\
-                  format(ticker=ticker, lineItem="LineItem", item=key1))
-        for key2 in income_statement_by_ticker[key1].keys():
-            #print(ticker, key1, key2, income_statement_by_ticker[key1][key2])
-            c.execute("INSERT INTO {ticker} ({y1}) VALUES ({value})".\
-                      format(ticker=ticker, y1=key2[:4], value=income_statement_by_ticker[key1][key2]))
-
-print(c.execute("SELECT * FROM AAPL"))
+        if key1 not in lineItemMap.keys():
+            lineItemMap[key1] = index
+            index+=1
+            print(lineItemMap)
 
 
 
 
 
 
+# listOfData = []
+
+# for ticker in ticker_list:
+#     tickerData = []
+#     income_statement_by_ticker = get_income_statement(ticker)
+#     for key1 in income_statement_by_ticker.keys():
+#         tickerData.append(key1)
+#     #     c.execute("INSERT INTO {ticker} ({lineItem}) VALUES (?)".\
+#     #               format(ticker=ticker, lineItem="LineItem"), (key1,))
+#         # for key2 in income_statement_by_ticker[key1].keys():
+#         #     #print(ticker, key1, key2, income_statement_by_ticker[key1][key2])
+#         #     c.execute("INSERT INTO {ticker} ({y1}) VALUES ({value})".\
+#         #               format(ticker=ticker, y1=key2[:4], value=income_statement_by_ticker[key1][key2]))
+#
+#     listOfData.append(tickerData)
 
 
 
 
-print(get_price(Ticker))
-print(get_income_statement(Ticker)["Revenue"]["2014-09"])
-print(get_balance_sheet(Ticker)["Total cash"]["2014-09"])
-print(get_cash_flow(Ticker)["Net income"]["2014-09"])
+
+
+
+
+
+
+
+#
+# print(get_price(Ticker))
+# print(get_income_statement(Ticker)["Revenue"]["2014-09"])
+# print(get_balance_sheet(Ticker)["Total cash"]["2014-09"])
+# print(get_cash_flow(Ticker)["Net income"]["2014-09"])
 
 
 
